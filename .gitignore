@@ -1,0 +1,14 @@
+summary_figures_Ecoli_calibrated/
+summary_figures_AmpR_calibrated/
+alignment/
+old_tests_peak_calling/
+peakCalling/
+FastQCResults/
+fig6_reproducibility.R
+fig7_peakAnalysis_MACS2.R
+fig7_peakAnalysis.R
+output.log
+fig3_sequencingDepth.R
+fig4_duplicationRate.R
+fig5_mappedFragmentSizeDistribution.R
+

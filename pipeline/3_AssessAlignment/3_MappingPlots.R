@@ -1,0 +1,169 @@
+################################################################################
+#                                                                              #
+# cut & tag analysis pipeline R-loop identification project                    #
+# 3. Mapping Summary Plots                                                     #
+# wetlab: Serkan Meydaner & Celeste Franconi                                   #
+#                                                                              #
+# purpose: R script to compute plots of summary and statistics of the mappings #
+################################################################################
+
+#-----------------------Paths and libraries------------------------------------#
+library(ggplot2)
+library(viridis)
+library(dplyr)
+library(ggpubr)
+library(RColorBrewer)
+
+#--------------------------Alignment assessment--------------------------------#
+
+projectPath <- "/project/ChromGroup_Seq_data/Celeste/2024_summer_complete" #fill this variable with the same path as PROJECTROOT in 
+# the cut_and_tag_pipeline.sh script
+
+alignResultpath <- paste0(projectPath, "/alignment/summary_seq_depth_all_experiments.txt")
+
+alignResult <- read.table(alignResultpath, header=T)
+
+AlignmentRate_cont <- strsplit(alignResult$AlignmentRate_hg38,
+                                         "%")
+AlignmentRate_cont <- unlist(AlignmentRate_cont)
+AlignmentRate_cont <- as.numeric(AlignmentRate_cont)
+
+alignResult$AlignmentRate_cont <- AlignmentRate_cont
+
+
+split_results <- strsplit(alignResult$Histone, "[.]")
+
+alignResult$cellLine <- as.factor(sapply(split_results, `[`, 1))
+
+alignResultpathspikein <- paste0(projectPath, "/alignment/summary_seq_depth_spikein_AmpR.txt")
+
+alignResultSpikein <- read.table(alignResultpathspikein, header=T)
+
+split_results <- strsplit(alignResultSpikein$Histone, "[.]")
+
+alignResultSpikein$cellLine <- as.factor(sapply(split_results, `[`, 1))
+fig3A = alignResult %>% ggplot(aes(x = Histone,
+                                   y = SequencingDepth/1000000, 
+                                   fill = cellLine)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = as.factor(Replicate)), position = position_jitter(0.15)) +
+  scale_fill_viridis(discrete= T,begin = 0.1, end = 0.9, option = "magma", alpha = 0.8) +
+  scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +
+  theme_bw(base_size = 18) +
+  ylab("Sequencing Depth per Million") +
+  xlab("") + 
+  ggtitle("A. Sequencing Depth")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.7, size=12),
+        legend.title=element_text(size=18))
+
+fig3A
+
+fig3B = alignResult %>% ggplot(aes(x = Histone,
+                                   y = MappedFragNum_hg38/1000000,
+                                   fill = cellLine)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = as.factor(Replicate)), position = position_jitter(0.15)) +
+  scale_fill_viridis(discrete = TRUE, begin = 0.1, end = 0.9, option = "magma", alpha = 0.8) +
+  scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +
+  theme_bw(base_size = 18) +
+  ylab("Mapped Fragments per Million") +
+  xlab("") +
+  ggtitle("B. Alignable Fragment (hg38)")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.7, size=12),
+        legend.title=element_text(size=14))
+fig3B
+
+fig3C = alignResult %>% ggplot(aes(x = Histone, 
+                                   y = AlignmentRate_cont, 
+                                   fill = Histone)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = as.factor(Replicate)), position = position_jitter(0.15)) +
+  scale_fill_viridis(discrete = T,begin = 0.1, end = 0.9, option = "magma", alpha = 0.8) +
+  scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +
+  theme_bw(base_size = 18) +
+  ylab("% of Mapped Fragments") +
+  xlab("") +
+  ggtitle("C. Alignment Rate (hg38)")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.7, size=12),
+        legend.title=element_text(size=14))
+fig3C
+
+fig3D = alignResultSpikein %>% ggplot(aes(x = Histone, 
+                                   y = AlignmentRate_spikeIn, 
+                                   fill = cellLine)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = as.factor(Replicate)), position = position_jitter(0.15)) +
+  scale_fill_viridis(discrete = T,begin = 0.1, end = 0.9, option = "magma", alpha = 0.8) +
+  scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +
+  theme_bw(base_size = 18) +
+  ylab("% of Mapped Fragments") +
+  xlab("") +
+  ggtitle("D. Alignment Rate spike-in (AmpR)")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.7, size=12),
+        legend.title=element_text(size=14))
+fig3D
+ggarrange(fig3A, fig3B, fig3C, fig3D, ncol = 2, nrow=2, 
+          common.legend = TRUE, legend="bottom")
+
+#------------------------------Spike-in mapping--------------------------------#
+
+
+alignResultpath <- paste0(projectPath, "summary_seq_depth_spikein.txt")
+
+alignResult <- read.table(alignResultpath, header=T)
+
+AlignmentRate_cont <- strsplit(alignResult$AlignmentRate_hg38,
+                               "%")
+AlignmentRate_cont <- unlist(AlignmentRate_cont)
+AlignmentRate_cont <- as.numeric(AlignmentRate_cont)
+
+alignResult$AlignmentRate_cont <- AlignmentRate_cont
+
+
+fig3A = alignResult %>% ggplot(aes(x = Histone,
+                                   y = SequencingDepth/1000000, 
+                                   fill = Histone)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = as.factor(Replicate)), position = position_jitter(0.15)) +
+  scale_fill_viridis(discrete= T,begin = 0.1, end = 0.9, option = "magma", alpha = 0.8) +
+  scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +
+  theme_bw(base_size = 18) +
+  ylab("Sequencing Depth per Million") +
+  xlab("") + 
+  ggtitle("A. Sequencing Depth spike-in")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.7, size=10),
+        legend.title=element_text(size=14))
+
+fig3A
+
+fig3B = alignResult %>% ggplot(aes(x = Histone,
+                                   y = MappedFragNum_hg38/1000000,
+                                   fill = Histone)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = as.factor(Replicate)), position = position_jitter(0.15)) +
+  scale_fill_viridis(discrete = TRUE, begin = 0.1, end = 0.9, option = "magma", alpha = 0.8) +
+  scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +
+  theme_bw(base_size = 18) +
+  ylab("Mapped Fragments per Million") +
+  xlab("") +
+  ggtitle("B. Alignable Fragment spike-in")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.7, size=10),
+        legend.title=element_text(size=14))
+fig3B
+
+fig3C = alignResult %>% ggplot(aes(x = Histone, 
+                                   y = AlignmentRate_cont, 
+                                   fill = Histone)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = as.factor(Replicate)), position = position_jitter(0.15)) +
+  scale_fill_viridis(discrete = T,begin = 0.1, end = 0.9, option = "magma", alpha = 0.8) +
+  scale_color_viridis(discrete = TRUE, begin = 0.1, end = 0.9) +
+  theme_bw(base_size = 18) +
+  ylab("% of Mapped Fragments") +
+  xlab("") +
+  ggtitle("C. Alignment Rate spike-in")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.7, size=10),
+        legend.title=element_text(size=14))
+fig3C
+ggarrange(fig3A, fig3B, fig3C, ncol = 2, nrow=2, 
+          common.legend = TRUE, legend="bottom")

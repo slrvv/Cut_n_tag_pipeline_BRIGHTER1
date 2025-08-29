@@ -1,0 +1,15 @@
+SampleName,rep1,rep2
+HBD.gfp,HBD.gfp_1,HBD.gfp_2
+HBD.flag,HBD.flag_1,HBD.flag_2
+HBD.his,HBD.his_1,HBD.his_2
+HBD.rpa70,HBD.rpa70_1,HBD.rpa70_2
+HBD.h3k4me3,HBD.h3k4me3_1,HBD.h3k4me3_2
+WKK.gfp,WKK.gfp_1,WKK.gfp_2
+WKK.flag,WKK.flag_1,WKK.flag_2
+WKK.his,WKK.his_1,WKK.his_2
+WKK.h3k4me3,WKK.h3k4me3_1,WKK.h3k4me3_2
+WT.gfp,WT.gfp_1,HBD.gfp_2
+WT.flag,WT.flag_1,HBD.flag_2
+WT.his,WT.his_1,HBD.his_2
+WT.rpa70,WT.rpa70_1,HBD.rpa70_2
+WT.h3k4me3,WT.h3k4me3_1,HBD.h3k4me3_2
