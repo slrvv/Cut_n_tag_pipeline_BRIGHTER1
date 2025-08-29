@@ -18,4 +18,8 @@ pipeline/IgG_cell_lines_merge.sh
 pipeline/merge_IgG.R
 pipeline/merge_IgG.sh
 pipeline/processing_previous.sh
+pipeline/3_AssessAlignment/._3_DuplicateAssess.sh
+pipeline/3_AssessAlignment/._3_DuplicateAssessSumary.R
+pipeline/3_AssessAlignment/._3_FragAssessSumary.R
+pipeline/3_AssessAlignment/._3_MappingSummary.R
 
