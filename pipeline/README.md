@@ -1,10 +1,10 @@
 # CUT & TAG pipeline 
 
 This is a Cut & Tag processing pipeline for the R-loop identification project collaboration between the Kinkley lab & Vingron Lab.
-The raw data was produced by Serkan Meydaneri. The pipeline's goal is to produce BigWig files and Peak files from the raw
+The raw data was produced by Celeste Franconi. The pipeline's goal is to produce BigWig files and Peak files from the raw
 Cut & Tag data.
 
-The pipeline consists of modules (bash files for each task) that are then called by a main script `cut_and_tag_pipeline.sh`.
+The pipeline consists of modules (bash files for each task) that are then called by a main script `cut_and_tag_pipeline.sh` or `cut_and_tag_pipeline_AmpR.sh`.
 The modules are: 
 
 1. Quality Control: Apply FastQC to the data `1_QC_Preprocessing.sh`.
@@ -49,7 +49,7 @@ reads.
 Group each experiment with the control experiment you want to use for peak calling
 and for IgG substraction (optional).
 
-2. Copy the file cut_and_tag_pipeline_tutorial.sh or cut_and_tag_pipeline_example.sh, 
+2. Open one of the files starting with cut_and_tag_pipeline..., 
 change its name and the following variables: 
 - PROJECTROOT
 - RAWROOT

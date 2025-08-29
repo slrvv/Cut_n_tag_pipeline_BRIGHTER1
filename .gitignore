@@ -11,4 +11,11 @@ output.log
 fig3_sequencingDepth.R
 fig4_duplicationRate.R
 fig5_mappedFragmentSizeDistribution.R
+.RData
+.Rhistory
+pipeline/._cut_and_tag_pipeline_example_v1.sh
+pipeline/IgG_cell_lines_merge.sh
+pipeline/merge_IgG.R
+pipeline/merge_IgG.sh
+pipeline/processing_previous.sh
 
